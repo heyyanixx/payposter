@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PayPoster — Free UPI QR Poster &amp; Pay Link Maker</title>
+<meta name="description" content="Make a beautiful UPI QR poster and a shareable pay link in 10 seconds. Free, open source, works in your browser — nothing is uploaded.">
+<meta name="theme-color" content="#060608">
+<meta property="og:title" content="PayPoster — UPI QR posters & pay links in 10 seconds">
+<meta property="og:description" content="Free, open-source UPI QR poster maker for shops, creators, students & events. Runs fully in your browser.">
+<meta property="og:image" content="https://heyyanixx-payposter.sites.tab.bot/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+<a class="skip" href="#maker">Skip to the maker</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#" aria-label="PayPoster home"><span class="logo" aria-hidden="true">₹</span><span>Pay<b>Poster</b></span></a>
+    <nav aria-label="Links">
+      <a href="#how">How it works</a>
+      <a href="https://github.com/heyyanixx/payposter" rel="noopener" target="_blank">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app">
+  <!-- MAKER VIEW -->
+  <section id="maker" class="wrap maker" aria-labelledby="h1">
+    <div class="intro">
+      <p class="eyebrow">Free · Open source · No upload</p>
+      <h1 id="h1">Your UPI QR poster<br><span>in 10 seconds.</span></h1>
+      <p class="lead">Type your UPI ID, pick a style, download. Shop counter, chai-support for creators, fest entry fee, split bill with friends — sab ek jagah.</p>
+    </div>
+
+    <div class="grid">
+      <div class="preview-col">
+        <div class="preview-card">
+          <canvas id="poster" width="1080" height="1920" aria-label="Poster preview" role="img"></canvas>
+        </div>
+        <div class="actions" role="group" aria-label="Export">
+          <button id="dl" class="btn gold" type="button">⬇ Download PNG</button>
+          <button id="share" class="btn" type="button">Share poster</button>
+          <button id="print" class="btn" type="button">Print / PDF</button>
+        </div>
+      </div>
+
+      <form id="form" class="form-col" autocomplete="off" novalidate>
+        <div class="field">
+          <label for="pa">UPI ID <span class="req">*</span></label>
+          <input id="pa" name="pa" inputmode="email" placeholder="yourname@okaxis" spellcheck="false" autocapitalize="off" maxlength="300" required aria-describedby="pa-msg">
+          <p id="pa-msg" class="msg" aria-live="polite"></p>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="pn">Name on poster</label>
+            <input id="pn" name="pn" placeholder="Anish Store" maxlength="50">
+          </div>
+          <div class="field">
+            <label for="am">Amount (₹) <small>optional</small></label>
+            <input id="am" name="am" inputmode="decimal" placeholder="Any amount" maxlength="12" aria-describedby="am-msg">
+            <p id="am-msg" class="msg" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="tn">Note / purpose</label>
+          <input id="tn" name="tn" placeholder="Tech fest entry, Chai fund, Order #12…" maxlength="60">
+        </div>
+
+        <fieldset class="field">
+          <legend>Style</legend>
+          <div class="chips" id="styles"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Size</legend>
+          <div class="chips" id="sizes"></div>
+        </fieldset>
+        <div class="row2">
+          <div class="field">
+            <label for="head">Headline</label>
+            <input id="head" name="head" placeholder="SCAN &amp; PAY" maxlength="24">
+          </div>
+          <div class="field toggle">
+            <label class="switch"><input type="checkbox" id="hindi"><span></span> हिंदी footer</label>
+          </div>
+        </div>
+
+        <details class="split" id="splitbox">
+          <summary>🧮 Split a bill</summary>
+          <div class="row2">
+            <div class="field"><label for="st">Total bill (₹)</label><input id="st" inputmode="decimal" placeholder="1260"></div>
+            <div class="field"><label for="sp">People</label><input id="sp" inputmode="numeric" placeholder="4"></div>
+          </div>
+          <p id="split-out" class="split-out" aria-live="polite">Total aur log daalo — per head amount yahin dikhega.</p>
+          <button id="split-use" class="btn small" type="button" disabled>Use this amount</button>
+        </details>
+
+        <div class="link-box">
+          <p class="lb-title">Shareable pay link</p>
+          <p class="lb-sub">Anyone who opens it on a phone gets a big “Pay” button + your QR.</p>
+          <div class="lb-row">
+            <input id="paylink" readonly aria-label="Pay link" value="">
+            <button id="copy" class="btn small" type="button">Copy</button>
+          </div>
+          <div class="lb-row">
+            <a id="wa" class="btn small wa" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+            <a id="open-pay" class="btn small" href="#">Preview pay page</a>
+            <button id="copy-upi" class="btn small ghost" type="button" title="Copy the raw upi:// link">Copy upi:// link</button>
+          </div>
+        </div>
+        <p class="tiny">Saved only on this device. <button id="clear" type="button" class="linkish">Clear</button></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAY VIEW (opened from a shared link) -->
+  <section id="payview" class="wrap payview" hidden aria-labelledby="pay-h">
+    <div class="pay-card">
+      <p class="eyebrow">UPI payment request</p>
+      <h1 id="pay-h"><span id="pv-name">—</span></h1>
+      <p class="pv-amt" id="pv-amt"></p>
+      <p class="pv-note" id="pv-note"></p>
+      <div class="pv-qr"><canvas id="pv-qr" width="560" height="560" role="img" aria-label="UPI QR code"></canvas></div>
+      <p class="pv-id"><code id="pv-id"></code> <button id="pv-copy" class="btn small ghost" type="button">Copy UPI ID</button></p>
+      <a id="pv-pay" class="btn gold big" href="#">Pay with UPI app</a>
+      <p class="pv-hint">On a phone this opens your UPI app. On a computer, scan the QR with your phone.</p>
+      <p class="pv-warn">⚠ Always check the name your UPI app shows before you pay. This page never sees your payment.</p>
+      <p class="pv-bad" id="pv-bad" hidden>This pay link looks broken — ask the sender for a fresh one.</p>
+      <a class="linkish" href="#" id="pv-make">Make your own poster →</a>
+    </div>
+  </section>
+
+  <section id="how" class="wrap how" aria-labelledby="how-h">
+    <h2 id="how-h">How it works</h2>
+    <ol class="steps">
+      <li><b>Type your UPI ID</b><span>Your VPA, like <code>name@okhdfcbank</code> or <code>9xxxxxxxxx@ybl</code>. Amount is optional.</span></li>
+      <li><b>Pick a style &amp; size</b><span>Story (9:16) for WhatsApp/Instagram, Square, or A4 to print for a shop counter.</span></li>
+      <li><b>Download or share</b><span>PNG, print to PDF, or send the pay link — the payer taps “Pay” and their UPI app opens with everything filled.</span></li>
+    </ol>
+    <div class="faq">
+      <details><summary>Is my data uploaded?</summary><p>No. The poster, QR and link are made in your browser. There is no server and no tracking. Your last inputs are saved in this browser only (tap “Clear” to remove).</p></details>
+      <details><summary>Does it work with every UPI app?</summary><p>It uses the standard <code>upi://pay</code> format that UPI apps read. Some apps may ignore the pre-filled amount or note for personal (non-merchant) IDs — the payer can still type it.</p></details>
+      <details><summary>Can I accept money with this like a business?</summary><p>It's great for personal collections, small shops, fests and creators. For GST invoices, refunds and settlement reports you'd want a bank/merchant QR or a payment gateway.</p></details>
+      <details><summary>Who made this?</summary><p>Anish (HEYYANIXX), a BCA student from Dumka, Jharkhand — built in public. Code is MIT-licensed on GitHub; issues and PRs welcome.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Made by <a href="https://github.com/heyyanixx" rel="noopener" target="_blank">@heyyanixx</a> · <a href="https://github.com/heyyanixx/payposter" rel="noopener" target="_blank">Source (MIT)</a> · <a href="https://heyyanixx-tools.sites.tab.bot/" rel="noopener" target="_blank">More free tools</a></p>
+    <p class="tiny">Not affiliated with NPCI or any bank or UPI app. UPI is a trademark of its owner, used here only to describe compatibility.</p>
+  </div>
+</footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="printarea" aria-hidden="true"><img id="printimg" alt=""></div>
+<script src="vendor/qrcode.js"></script>
+<script src="js/upi.js?v=1"></script>
+<script src="js/poster.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
+</body>
+</html>

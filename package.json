@@ -1,0 +1,25 @@
+{
+  "name": "payposter",
+  "version": "1.0.0",
+  "description": "Free UPI QR poster + shareable pay link maker. 100% in-browser.",
+  "license": "MIT",
+  "author": "Anish (HEYYANIXX)",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/",
+    "start": "python3 -m http.server 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heyyanixx/payposter.git"
+  },
+  "homepage": "https://heyyanixx-payposter.sites.tab.bot/",
+  "keywords": [
+    "upi",
+    "qr-code",
+    "india",
+    "payment-link",
+    "poster",
+    "static-site"
+  ]
+}
